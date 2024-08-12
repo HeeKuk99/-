@@ -28,6 +28,7 @@
  설문조사를 통해 얻은 데이터들을 TGAN 모델에 학습시켜 12000개의 데이터를 만들었다. 이 때, 설문조사 
 응답이 극소수로 존재하는 폐경, 암 유경험 등의 데이터는 학습이 불가해 제외하고 학습하였다. 최종적으로 증강과정 데이터에 포함된 칼럼은 나이, 체중, 흡연여부 등 14 개 칼럼이다.
  이후, 환자군 데이터와 대조하여 없는 칼럼을 생성하고 환자군 데이터에 합친 뒤, K-최근접 이웃법을 이용하여 호르몬 치료 기간, 개인 병력 여부 등 대조군 데이터에 존재하지 않는 칼럼의 데이터들을 대체했다. 
+![image](https://github.com/user-attachments/assets/f88f6b18-a0e5-474e-9eb1-5b42093b07dc)
 
  이로부터 TARGET 여부 미포함 총 65개 칼럼의 23807개 데이터로 최종 데이터를 구성하였다.
 
@@ -57,8 +58,8 @@
  각 모델의 변수 중요도(및 가중치 또는 오즈비)를 이용하여 각 행에 대한 예측 확률을 계산한다. 예측 확률을 이용하여 최종 유방암 위험 확률(유방암 위험 점수)를 도출한다. 모든 과정은 임계값 0.01의 경우와 0.05의 경우를 동시에 진행한다.
 #### 1. GB
  B-1에서 구한 변수 중요도를 이용하여 위와 동일한 방식으로 위험 점수를 구한다. GB에서 환자군 데이터의 위험 점수 중 최대 위험 점수는 0.999970점으로 이를 max_risk_score로 설정한다. 
- 이 수치를 분모로 전체 위험 점수를 100점 기준으로 변환하여 위험 백분위를 계산하였다. 이는 본 프로젝트에서 유방암 위험 확률이라 칭한다. 
- 유방암 위험 확률(유방암 위험 점수)의 분포도는 [그림 4-2], [그림 4-3]와 같았다.
+이 수치를 분모로 전체 위험 점수를 100점 기준으로 변환하여 위험 백분위를 계산하였다. 이는 본 프로젝트에서 유방암 위험 확률이라 칭한다. 
+유방암 위험 확률(유방암 위험 점수)의 분포도는 [그림 4-2], [그림 4-3]와 같았다.
  ![image](https://github.com/user-attachments/assets/5a1f96ab-33eb-4915-822a-1fdb2d556fe0)
 #### 2. RF 
  B-2에서 구한 변수 중요도를 이용하여 위와 동일한 방식으로 유방암 위험 확률을 도출한다. 
@@ -69,9 +70,9 @@
  ![image](https://github.com/user-attachments/assets/e80b9adb-73ec-4120-9163-ffad7fcb168a)
  
 ## 모델 성능 비교 분석
-유방암 위험 확률(유방암 위험 점수) 예측에 사용되는 모델을 최종 선정하기 위해 모델의 성능을 비교 분석한다. 성능 비교 지표는 Accuracy, Precision, Recall, F1 Score, ROC AUC 를 기준으로 한다. 결과는 [표4-3], [표4-4]와 같았다.
+ 유방암 위험 확률(유방암 위험 점수) 예측에 사용되는 모델을 최종 선정하기 위해 모델의 성능을 비교 분석한다. 성능 비교 지표는 Accuracy, Precision, Recall, F1 Score, ROC AUC 를 기준으로 한다. 결과는 [표4-3], [표4-4]와 같았다.
 ![image](https://github.com/user-attachments/assets/aa97ca41-5f8e-4c24-89c2-6cbe5f1930bc)
-임계값 0.01 이상 모델의 성능 비교에서 Accuracy, Precision, F1 Score, ROC AUC 가 가장 높은 값을 
+ 임계값 0.01 이상 모델의 성능 비교에서 Accuracy, Precision, F1 Score, ROC AUC 가 가장 높은 값을 
 갖는 Gradient Boosting 이 비교적 우수하다. 임계값 0.05 이상 모델의 성능 비교에서 Accuracy, Recall, F1 Score, ROC AUC 가 가장 높은 값을 갖는 Random Forest 가 비교적 우수하다. 
 
 ## 유방암 위험 확률(유방암 위험 점수) 정확도 분석
@@ -83,5 +84,5 @@ Best Threshold 로 선택한다(부록17, 18).
 ![image](https://github.com/user-attachments/assets/fe9cc49c-5797-4bd8-9365-3946cf5f6383)
 ![image](https://github.com/user-attachments/assets/9955ddeb-6f3f-4456-9841-7172d6616719)
  임계값 0.01 의 경우 혼동행렬에 따른 Recall은 0.999439, 임계값 0.05의 경우 Recall은 0.984936이다.따라서 임계값 0.01이 더 적합하다. 임계값 0.01 이상의 유방암 위험 점수 분포도를 Threshold 를 기준으로 시각화 한 그래프는 [그림 4-4]와 같다.
- ![image](https://github.com/user-attachments/assets/42c86cd8-551a-4c9b-a3c2-f54a2514e325)
+![image](https://github.com/user-attachments/assets/42c86cd8-551a-4c9b-a3c2-f54a2514e325)
  위 그래프에서 가운데 점선은 Threshold를, ‘Target 0’은 대조군, ‘Target 1’은 환자군을 의미한다. 따라서 유방암 위험 점수가 Threshold를 기준으로 환자군과 대조군으로 나뉘므로, 점수가 정확하게 예측되었다고 볼 수 있다.  
